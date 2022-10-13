@@ -24,6 +24,7 @@ class _ContactPageState extends State<ContactPage> {
         .sort((Contact a, Contact b) => a.name[0].compareTo(b.name[0]));
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.red,
         title: const Text("Phone book"),
       ),
       floatingActionButton: FloatingActionButton(
@@ -37,26 +38,37 @@ class _ContactPageState extends State<ContactPage> {
           itemCount: contacts.length,
           itemBuilder: (BuildContext context, int index) {
             Contact contact = contacts[index];
-            return Container(
-              padding: const EdgeInsets.only(top: 20),
-              child: Row(
-                children: [
-                  const CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      "https://www.mazzetti.com/wp-content/uploads/2019/01/ANeathery-200x200.jpg",
+            return Dismissible(
+              direction: DismissDirection.startToEnd,
+              key: Key(contact.name),
+              onDismissed: (direction) {
+                var snackBar = ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        duration: const Duration(milliseconds: 500),
+                        content: Text("${contact.name} basariyla silindi")));
+              },
+              child: Container(
+                color: Color.fromARGB(210, 212, 205, 203),
+                padding: const EdgeInsets.only(top: 20),
+                child: Row(
+                  children: [
+                    const CircleAvatar(
+                      backgroundImage: NetworkImage(
+                        "https://www.mazzetti.com/wp-content/uploads/2019/01/ANeathery-200x200.jpg",
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(contact.name),
-                        Text(contact.phoneNumber)
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(contact.name),
+                          Text(contact.phoneNumber),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           }),
