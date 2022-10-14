@@ -38,14 +38,31 @@ class _ContactPageState extends State<ContactPage> {
           itemCount: contacts.length,
           itemBuilder: (BuildContext context, int index) {
             Contact contact = contacts[index];
+
             return Dismissible(
+              background: Container(
+                color: Colors.red,
+                child: const Icon(Icons.delete),
+              ),
+              key: UniqueKey(),
               direction: DismissDirection.startToEnd,
-              key: Key(contact.name),
               onDismissed: (direction) {
-                var snackBar = ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                        duration: const Duration(milliseconds: 500),
-                        content: Text("${contact.name} basariyla silindi")));
+                setState(() {
+                  contacts.removeAt(index);
+                });
+                var snackBar =
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  duration: const Duration(milliseconds: 2000),
+                  content: Text("${contact.name} basariyla silindi"),
+                  action: SnackBarAction(
+                    label: "Geri Al",
+                    onPressed: () {
+                      setState(() {
+                        contacts.add(contact);
+                      });
+                    },
+                  ),
+                ));
               },
               child: Container(
                 color: Color.fromARGB(210, 212, 205, 203),

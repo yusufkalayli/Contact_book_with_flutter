@@ -12,7 +12,10 @@ class AddContactPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Contact.contacts.add(Contact(name: "Test", phoneNumber: "0555 555 55 55"));
+    Contact.contacts.add(Contact(
+        name: "Test",
+        phoneNumber: "0555 555 55 55",
+        avatar: "assets/images/personIcon.png"));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
@@ -107,8 +110,11 @@ class _AddContactFormState extends State<AddContactForm> {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
 
-                        Contact.contacts
-                            .add(Contact(name: name, phoneNumber: phoneNumber));
+                        Contact.contacts.add(Contact(
+                          name: name,
+                          phoneNumber: phoneNumber,
+                          avatar: '',
+                        ));
 
                         var snackBar = ScaffoldMessenger.of(context)
                             .showSnackBar(SnackBar(
